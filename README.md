@@ -42,10 +42,12 @@ SSID is JARVIS, ask a team member for the pw (remember that this is an open repo
 When on the network, just switch on the board you wish to work on, and it should have a static IP setup from the getgo.
 
 Currently, the set IPs are as follows:
+```
 192.168.1.2 GUNN
 192.168.1.4 BJORG
 192.168.1.5 SOLFRID
 ???         AASE (Ikke satt opp enda)
+```
 
 You can use this information to make SSH-connections a bit simpler (instead of searching for the IP every time).
 If using Ubuntu, you can edit your /etc/hosts file to include this routing information.
