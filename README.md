@@ -15,8 +15,7 @@ Identify the IPv4 address and login:
 ```
 ssh xilinx@{ip}
 ```
-
-The password is `xilinx`. Enjoy!
+Ask a team member if you don't know the password.
 
 ## PYNQ-Z1 Serial Connection
 
