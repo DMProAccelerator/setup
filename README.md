@@ -45,7 +45,7 @@ Currently, the set IPs are as follows:
 192.168.1.2 GUNN
 192.168.1.4 BJORG
 192.168.1.5 SOLFRID
-???         AASE (Ikke satt opp enda)
+192.168.1.7 AASE
 ```
 
 You can use this information to make SSH-connections a bit simpler (instead of searching for the IP every time).
@@ -56,9 +56,10 @@ An example of the /etc/hosts file with the information filled in:
 127.0.0.1       localhost
 127.0.1.1       <your computer hostname here>
 
-192.168.1.5     solfrid
 192.168.1.2     gunn
 192.168.1.4     bjorg
+192.168.1.5     solfrid
+192.168.1.7     aase
 ```
 
 Now you can simply SSH into, for example gunn, by entering:
