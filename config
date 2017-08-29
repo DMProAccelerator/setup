@@ -1,0 +1,15 @@
+Host gunn
+  HostName 192.168.1.2
+  User xilinx
+
+Host bjorg
+  HostName 192.168.1.4
+  User xilinx
+
+Host solfrid
+  HostName 192.168.1.5
+  User xilinx
+
+Host aase
+  HostName 192.168.1.7
+  User xilinx
