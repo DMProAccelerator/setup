@@ -1,7 +1,9 @@
 NOTE: Always turn off the PYNQ-boards after use, as the SD-card will wear out over time due to heavy logwriting on the PYNQ.
 
 # System Setup
-In order to run a fully functional version of the system, including development on-board, it is essential to follow these steps, or use an existing custom image file (if provided):
+In order to run a fully functional version of the system, including development on-board, it is essential to follow these steps.
+(or just download the latest QBART Build from http://folk.ntnu.no/kristovm/ , which is basically what you get from following these steps).
+
 1. Download the newest, clean image from https://github.com/Xilinx/PYNQ .
 2. Use an image burner (such as Win32DiskImager for windows, or Brasero (for example) for Ubuntu) to burn the image to a microSD.
 3. Plug the SD-card into the PYNQ-board.
@@ -34,22 +36,25 @@ sudo python2 -m pip install --upgrade ipykernel && sudo python2 -m ipykernel ins
 sudo passwd && passwd
 ```
 
-We also need to change the password of the Jupyter server, reachable at <ip>:9090, as it is already running out of the box. From the PYNQ-docs:
+There is also an additional default password we need to get rid of:
+We also need to change the password of the Jupyter server, reachable when the PYNQ is running at  <PYNQip>:9090, as it is already running out of the box. From the PYNQ-docs:
  hashed password is saved in the Jupyter Notebook configuration file.
 
-/root/.jupyter/jupyter_notebook_config.py
-You can create a hashed password using the function IPython.lib.passwd():
+```/root/.jupyter/jupyter_notebook_config.py```
+
+You can create a hashed password using the function IPython.lib.passwd(), run these lines either in a python shell, or your preferred IDE, to create a hash:
 
 ```
 from IPython.lib import passwd
 password = passwd("secret") # Secret should be replaced by team password.
-6c2164fc2b22:ed55ecf07fc0f985ab46561483c0e888e8964ae6
+print(password)
 ```
+Should give you the hash. Copy and paste the hash.
 
-You can then add or modify the line in the jupyter_notebook_config.py file
+You can then add or modify the line in the ```jupyter_notebook_config.py``` file
 
 ```
-c.NotebookApp.password =u'sha1:6c2164fc2b22:ed55ecf07fc0f985ab46561483c0e888e8964ae6'
+c.NotebookApp.password =u'sha1:<Your hash here>'
 ```
 
 11. Lastly, we would most likely want to give each PYNQ a unique hostname, as the default "pynq" can be informative if one is to use several in a parallell OpenMPI approach. Use the provided PYNQ-script:
@@ -59,7 +64,7 @@ pynq_hostname.sh <NEW HOSTNAME>
 Remember to reboot the board afterwards in order for changes to take effect.
 
 12. In addition, several other packages must be installed in order for the system to work:
-* 
+* <To be added continously>
 
 13. Finally, development files must be installed at the following locations:
 TODO: Add these when files becomem finished
