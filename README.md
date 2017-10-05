@@ -10,7 +10,7 @@ In order to run a fully functional version of the system, including development 
 4. Connect the PYNQ to a network (see examples in the connection setup section), preferably one connected to the internet.
 5. Turn on the power. The button LEDs should blink after 30-60 seconds. If not, something probably went wrong when writing the image (did you remember to unmount before removing the SD-card?)
 6. Connect to the device. (Again, see connection setup). Default user and pw is "xilinx" - we'll change this shortly.
-7. Currently, PYNQ uses a custom built variant of Ubuntu 15.10, which has been deprecated for quite some time. This has recently led to issues when using apt, as the repoes has been moved to archive. One possible Hacky mcHack is:
+7. Currently, PYNQ uses a custom built variant of Ubuntu 15.10, which has been deprecated for quite some time. This has recently led to issues when using apt, as the repos has been moved to archive. One possible solution is:
 ```
 sudo sed -i s/wily/vivid/g /etc/apt/sources.list.d/multistrap-wily.list
 ```
@@ -69,7 +69,8 @@ Remember to reboot the board afterwards in order for changes to take effect.
 13. Finally, development files must be installed at the following locations:
 TODO: Add these when files becomem finished
 
-13. It is also a pain in the butt to repeat this process for every single board, so in order to reduce the amount of work, one would ideally set up one board in the above manner, then we clone the SD-card to an image file, and then burn the image file to other PYNQ SD-cards. The image file should be provided on the repo for easy reuse. It is important to change hostname after flashing to other boards. Kinda pointless if all boards are named the same.
+13. It is also a lot of work to repeat this process for every single board.
+In order to reduce the amount of work, one would ideally set up one board in the above manner, then we clone the SD-card to an image file, and then burn the image file to other PYNQ SD-cards. The image file should be provided on http://folk.ntnu.no/kristovm/ for easy reuse (placing it in a repo makes pulls a bit more of a strain). It is important to change hostname after flashing to other boards. Kinda pointless if all boards are named the same.
 
 # Connection setup
 ## PYNQ-Z1 Ethernet Connection
