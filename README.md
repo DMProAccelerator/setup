@@ -1,7 +1,78 @@
-# Setup
+NOTE: Always turn off the PYNQ-boards after use, as the SD-card will wear out over time due to heavy logwriting on the PYNQ.
 
-NB! Always remember to turn off the boards after use to reduce wear on the SD-card.
+# System Setup
+In order to run a fully functional version of the system, including development on-board, it is essential to follow these steps.
+(or just download the latest QBART Build from http://folk.ntnu.no/kristovm/ , which is basically what you get from following these steps).
 
+1. Download the newest, clean image from https://github.com/Xilinx/PYNQ .
+2. Use an image burner (such as Win32DiskImager for windows, or Brasero for Ubuntu) to burn the image to a microSD.
+3. Plug the SD-card into the PYNQ-board.
+4. Connect the PYNQ to a network (see examples in the connection setup section), preferably one connected to the internet.
+5. Turn on the power. The button LEDs should blink after 30-60 seconds. If not, something probably went wrong when writing the image (did you remember to unmount before removing the SD-card?)
+6. Connect to the device. (Again, see connection setup). Default user and pw is "xilinx" - we'll change this shortly.
+7. Currently, PYNQ uses a custom built variant of Ubuntu 15.10, which has been deprecated for quite some time. This has recently led to issues when using apt, as the repos has been moved to archive. One possible solution is:
+```
+sudo sed -i s/wily/vivid/g /etc/apt/sources.list.d/multistrap-wily.list
+```
+NB! If any weird issues arise from any tools, this hack should be the first thing to look at. We use the repos of Ubuntu 17, maybe one has to use one for an older version? So far it works just fine, though.
+
+UPDATE: After some weird broken pipe errors and apt returning error codes, the repos have now been changed to the vivid ones, which is an earlier version of Ubuntu 15 than the one on the system, but is still officially supported. If this also breaks, then one has to look into adding the archive repos for the actual ubuntu 15 on the system (wily)
+
+8. ```sudo apt-get update && sudo apt-get upgrade``` is also nice at this time to update potentially old packages.
+9. The image already comes with Jupyter Notebook, but it doesn't have the python2 kernel installed by default. This will cause issues if you run QNN tutorial notebooks on the board (as it is written in python 2), and if you plan to reuse some of the code in your own Jupyter Notebook. So we'll install the python2 ipython kernel.
+
+First we must upgrade pip, as the version included is quite old:
+```
+sudo pip install -U pip
+```
+
+Then we use pip to install the python2 kernel, and register the python 2 kernelspec. Credit: https://github.com/jupyter/jupyter/issues/71
+```
+sudo python2 -m pip install --upgrade ipykernel && sudo python2 -m ipykernel install
+```
+
+10. Next, we'd like for security reasons to not use default passwords, as it is always an awful practice not to change them. If on the QBART-team, there is a default password, ask a member. We need to update both sudo and user, so we run:
+```
+sudo passwd && passwd
+```
+
+There is also an additional default password we need to get rid of:
+We also need to change the password of the Jupyter server, reachable when the PYNQ is running at  <PYNQip>:9090, as it is already running out of the box. From the PYNQ-docs:
+ hashed password is saved in the Jupyter Notebook configuration file.
+
+```/root/.jupyter/jupyter_notebook_config.py```
+
+You can create a hashed password using the function IPython.lib.passwd(), run these lines either in a python shell, or your preferred IDE, to create a hash:
+
+```
+from IPython.lib import passwd
+password = passwd("secret") # Secret should be replaced by team password.
+print(password)
+```
+Should give you the hash. Copy and paste the hash.
+
+You can then add or modify the line in the ```jupyter_notebook_config.py``` file
+
+```
+c.NotebookApp.password =u'sha1:<Your hash here>'
+```
+
+11. Lastly, we would most likely want to give each PYNQ a unique hostname, as the default "pynq" can be uninformative if one is to use several in a parallell OpenMPI approach. Use the provided PYNQ-script:
+```
+pynq_hostname.sh <NEW HOSTNAME>
+```
+Remember to reboot the board afterwards in order for changes to take effect.
+
+12. In addition, several other packages must be installed in order for the system to work:
+* TODO: <To be added continously>
+
+13. Finally, development files must be installed at the following locations:
+TODO: Add these when files become finished
+
+13. It is also a lot of work to repeat this process for every single board.
+In order to reduce the amount of work, one would ideally set up one board in the above manner, then we clone the SD-card to an image file, and then burn the image file to other PYNQ SD-cards. The image file should be provided on http://folk.ntnu.no/kristovm/ for easy reuse (placing it in a repo makes pulls a bit more of a strain). It is important to change hostname after flashing to other boards. Kinda pointless if all boards are named the same.
+
+# Connection setup
 ## PYNQ-Z1 Ethernet Connection
 
 Connect the board to a power supply and an Ethernet cable connected to your PC. Make sure the board is powered on, open the terminal and run:
