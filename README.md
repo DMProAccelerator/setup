@@ -5,7 +5,7 @@ In order to run a fully functional version of the system, including development 
 (or just download the latest QBART Build from http://folk.ntnu.no/kristovm/ , which is basically what you get from following these steps).
 
 1. Download the newest, clean image from https://github.com/Xilinx/PYNQ .
-2. Use an image burner (such as Win32DiskImager for windows, or Brasero (for example) for Ubuntu) to burn the image to a microSD.
+2. Use an image burner (such as Win32DiskImager for windows, or Brasero for Ubuntu) to burn the image to a microSD.
 3. Plug the SD-card into the PYNQ-board.
 4. Connect the PYNQ to a network (see examples in the connection setup section), preferably one connected to the internet.
 5. Turn on the power. The button LEDs should blink after 30-60 seconds. If not, something probably went wrong when writing the image (did you remember to unmount before removing the SD-card?)
@@ -57,17 +57,17 @@ You can then add or modify the line in the ```jupyter_notebook_config.py``` file
 c.NotebookApp.password =u'sha1:<Your hash here>'
 ```
 
-11. Lastly, we would most likely want to give each PYNQ a unique hostname, as the default "pynq" can be informative if one is to use several in a parallell OpenMPI approach. Use the provided PYNQ-script:
+11. Lastly, we would most likely want to give each PYNQ a unique hostname, as the default "pynq" can be uninformative if one is to use several in a parallell OpenMPI approach. Use the provided PYNQ-script:
 ```
 pynq_hostname.sh <NEW HOSTNAME>
 ```
 Remember to reboot the board afterwards in order for changes to take effect.
 
 12. In addition, several other packages must be installed in order for the system to work:
-* <To be added continously>
+* TODO: <To be added continously>
 
 13. Finally, development files must be installed at the following locations:
-TODO: Add these when files becomem finished
+TODO: Add these when files become finished
 
 13. It is also a lot of work to repeat this process for every single board.
 In order to reduce the amount of work, one would ideally set up one board in the above manner, then we clone the SD-card to an image file, and then burn the image file to other PYNQ SD-cards. The image file should be provided on http://folk.ntnu.no/kristovm/ for easy reuse (placing it in a repo makes pulls a bit more of a strain). It is important to change hostname after flashing to other boards. Kinda pointless if all boards are named the same.
