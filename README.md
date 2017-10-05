@@ -67,3 +67,13 @@ Now you can simply SSH into, for example gunn, by entering:
 
 And if you wish to connect to the Jupyter Notebook, go to the following URL in your preferred browser.
 http://gunn:9090
+
+## Issue when trying to load bitfile on the PYNQ board
+Updating to the new PYNQ image changes the way overlay TCL is parsed, so when trying to load the bitfile you will get a weird error. The way to fix this is to replace the file ~/pynq/pl.py with the old version which is now in this repo. [Link to same issue](https://groups.google.com/forum/#!topic/pynq_project/rtD0s2HIQuY)
+
+```
+rsync pl.py xilinx@<name>:~
+ssh xilinx@<name>
+mv pl.py pynq/pl.py
+```
+
