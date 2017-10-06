@@ -1,10 +1,11 @@
 NOTE: Always turn off the PYNQ-boards after use, as the SD-card will wear out over time due to heavy logwriting on the PYNQ.
 
 # System Setup
-In order to run a fully functional version of the system, including development on-board, it is essential to follow these steps.
+In order to run a fully functional version of the system as intended from the developers, including development on-board, it is essential to follow these steps.
 (or just download the latest QBART Build from http://folk.ntnu.no/kristovm/ , which is basically what you get from following these steps).
 
-1. Download the newest, clean image from https://github.com/Xilinx/PYNQ .
+1. Download the newest, clean v1.4 image from PYNQ: https://files.digilent.com/Products/PYNQ/pynq_z1_image_2017_02_10.zip. 
+DO NOT USE the newest v2.0 image - it introduces at least one critical bug.
 2. Use an image burner (such as Win32DiskImager for windows, or Brasero for Ubuntu) to burn the image to a microSD.
 3. Plug the SD-card into the PYNQ-board.
 4. Connect the PYNQ to a network (see examples in the connection setup section), preferably one connected to the internet.
@@ -16,13 +17,14 @@ sudo sed -i s/wily/vivid/g /etc/apt/sources.list.d/multistrap-wily.list
 ```
 NB! If any weird issues arise from any tools, this hack should be the first thing to look at. We use the repos of Ubuntu 17, maybe one has to use one for an older version? So far it works just fine, though.
 
-UPDATE: After some weird broken pipe errors and apt returning error codes, the repos have now been changed to the vivid ones, which is an earlier version of Ubuntu 15 than the one on the system, but is still officially supported. If this also breaks, then one has to look into adding the archive repos for the actual ubuntu 15 on the system (wily)
+UPDATE: After some weird broken pipe errors and apt returning error codes, the repos have now been changed to the vivid ones, which is an earlier version of Ubuntu 15 than the one on the system, but is still officially supported. If this also breaks, then one has to look into adding the archive repos for the actual ubuntu 15 on the system (wily). However, note that we use a special variant of ubuntu ported for the arm architecture.
 
 8. ```sudo apt-get update && sudo apt-get upgrade``` is also nice at this time to update potentially old packages.
 9. The image already comes with Jupyter Notebook, but it doesn't have the python2 kernel installed by default. This will cause issues if you run QNN tutorial notebooks on the board (as it is written in python 2), and if you plan to reuse some of the code in your own Jupyter Notebook. So we'll install the python2 ipython kernel.
 
-First we must upgrade pip, as the version included is quite old:
+First we must install and upgrade pip:
 ```
+sudo apt-get install python-pip
 sudo pip install -U pip
 ```
 
@@ -59,14 +61,12 @@ c.NotebookApp.password =u'sha1:<Your hash here>'
 
 11. Lastly, we would most likely want to give each PYNQ a unique hostname, as the default "pynq" can be uninformative if one is to use several in a parallell OpenMPI approach. Use the provided PYNQ-script:
 ```
-pynq_hostname.sh <NEW HOSTNAME>
+cd
+sudo ./scripts/hostname.sh <NEW HOSTNAME>
 ```
 Remember to reboot the board afterwards in order for changes to take effect.
 
-12. In addition, several other packages must be installed in order for the system to work:
-* TODO: <To be added continously>
-
-13. Finally, development files must be installed at the following locations:
+12. Finally, development files must be installed at the following locations:
 TODO: Add these when files become finished
 
 13. It is also a lot of work to repeat this process for every single board.
@@ -138,13 +138,4 @@ Now you can simply SSH into, for example gunn, by entering:
 
 And if you wish to connect to the Jupyter Notebook, go to the following URL in your preferred browser.
 http://gunn:9090
-
-## Issue when trying to load bitfile on the PYNQ board
-Updating to the new PYNQ image changes the way overlay TCL is parsed, so when trying to load the bitfile you will get a weird error. The way to fix this is to replace the file ~/pynq/pl.py with the old version which is now in this repo. [Link to same issue](https://groups.google.com/forum/#!topic/pynq_project/rtD0s2HIQuY)
-
-```
-rsync pl.py xilinx@<name>:~
-ssh xilinx@<name>
-mv pl.py pynq/pl.py
-```
 
